@@ -1,6 +1,6 @@
 import React from "react";
 
-function Pagination({ currentPage, totalPages, onPageChange }) {
+const Pagination = ({ currentPage, totalPages, onPageChange }) => {
     // Create an array of page numbers based on total pages
     const pageNumbers = [];
     for (let i = 1; i <= totalPages; i++) {

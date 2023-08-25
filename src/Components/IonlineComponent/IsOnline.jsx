@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-function IsOnline({ obj }) {
+const IsOnline = ({ obj }) => {
     console.log("I Am IsOnline Component");
     let { isOnlineNow, updateIsOnlineOrNot } = obj;
     useEffect(() => {

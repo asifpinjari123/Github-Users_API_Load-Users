@@ -4,7 +4,7 @@ import { getLocalData } from "../../UsersComponent/Users"; // Import getLocalDat
 import Pagination from '../../Pagination/Pagination'; // Import Pagination component, update path as needed
 import '../../Components/Bookmarks/Pagination.css'; // Import CSS, update path as needed
 
-function Bookmarks() {
+const Bookmarks = () => {
     // State for bookmarked user data
     const [bookmarkData, setBookmarkData] = useState([]);
 

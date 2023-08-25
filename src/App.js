@@ -10,6 +10,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 
 function App() {
+
   let [isOnlineNow, updateIsOnlineOrNot] = useState([true, false]);
   return <BrowserRouter>
     <Header />

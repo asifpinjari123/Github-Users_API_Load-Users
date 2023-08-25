@@ -1,4 +1,4 @@
-function Home() {
+const Home = () => {
   console.log("I Am Home Component");
   return (
     <div className="container d-flex justify-content-center align-items-center min-vh-100">

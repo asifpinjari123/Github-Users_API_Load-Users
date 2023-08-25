@@ -15,7 +15,7 @@ const getLocalData = (name) => {
     }
 };
 
-function Users({ isOnlineNow }) {
+const Users = ({ isOnlineNow }) => {
     // Component logic
     let [udata, updateUdata] = useState({ message: false });
     let [isLoading, updateLoading] = useState(false);
@@ -84,6 +84,7 @@ function Users({ isOnlineNow }) {
     let getData = () => {
         if (onlineStatus) {
             updateLoading(true);
+            console.log("Requesting For Api Data...");
             fetch(`https://api.github.com/users?per_page=100`)
                 .then((data) => data.json())
                 .then((data) => {
