@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import MainTable from "../UsersComponent/Users_Table"; // Replace with your component path
+import MainTable from "../UsersComponent/Users_Table"; 
 
 // Function to retrieve data from local storage
 const getLocalData = (name) => {
