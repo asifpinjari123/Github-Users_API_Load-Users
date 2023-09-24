@@ -59,7 +59,7 @@ const Bookmarks = () => {
             <Pagination
                 currentPage={currentPage} // Pass the current page number
                 totalPages={Math.ceil(filteredData.length / itemsPerPage)} // Calculate total pages
-                onPageChange={handlePageChange} // Pass the page change handler function
+                onPageChange={handlePageChange} 
             />
         </div>
     );
