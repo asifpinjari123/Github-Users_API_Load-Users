@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useCallback } from "react";
 import MainTable from "../UsersComponent/Users_Table"; 
+
 
 // Function to retrieve data from local storage
 const getLocalData = (name) => {
@@ -28,34 +29,32 @@ const Users = ({ isOnlineNow }) => {
     let [onlineStatus] = isOnlineNow;
 
     // Function to load data based on pagination
-    let loadByData = (x) => {
-        // Pagination logic
-        let { page, limit } = pagination;
-        let offset = (page - 1) * limit;
-        let total_pages = Math.ceil(x.length / limit);
-
-        // Update pagination based on total pages
-        updatePagination((old) => ({
-            ...old,
-            showLoadMore: page >= total_pages ? false : true,
-        }));
-
-        // Load data within the given range
-        x = x.slice(0, offset + limit);
-        updateUdata(x);
-    };
+    const loadByData = useCallback(
+        (x) => {
+            let { page, limit } = pagination;
+            let offset = (page - 1) * limit;
+            let total_pages = Math.ceil(x.length / limit);
+    
+            updatePagination((old) => ({
+                ...old,
+                showLoadMore: page >= total_pages ? false : true,
+            }));
+    
+            x = x.slice(0, offset + limit);
+            updateUdata(x);
+        },
+        [pagination]
+    );
 
     // Function to load data with pagination
-    let loadWithPagination = () => {
+    const loadWithPagination = useCallback(() => {
         let x = getLocalData("github_users");
         if (x.length > 0) {
             if (search !== "") {
-                // Filter data based on search query
                 x = x.filter((obj) =>
                     obj.login.match(new RegExp(search, "gi"))
                 );
                 if (x.length === 0) {
-                    // Handle no search results
                     updatePagination((old) => ({ ...old, showLoadMore: false }));
                     updateUdata({ message: "No Search Data Found!" });
                 } else {
@@ -67,7 +66,8 @@ const Users = ({ isOnlineNow }) => {
         } else {
             updateUdata({ message: "No Data Available In Your Storage!" });
         }
-    };
+    }, [search, loadByData]);
+    
 
     // Function to handle pagination
     let paginate = () => {
@@ -83,7 +83,7 @@ const Users = ({ isOnlineNow }) => {
     // Function to fetch data
     let getData = () => {
         if (onlineStatus) {
-            updateLoading(true);
+           
             console.log("Requesting For Api Data...");
             fetch(`https://api.github.com/users?per_page=100`)
                 .then((data) => data.json())
@@ -116,8 +116,9 @@ const Users = ({ isOnlineNow }) => {
 
     useEffect(() => {
         getData();
+        // eslint-disable-next-line
     }, [onlineStatus]);
-
+    
     useEffect(() => {
         updateLoading(true);
         let x = setTimeout(() => {
@@ -125,7 +126,7 @@ const Users = ({ isOnlineNow }) => {
             loadWithPagination();
         }, 300);
         return () => clearTimeout(x);
-    }, [pagination.page, search]);
+    }, [pagination.page, search, loadWithPagination]);
 
     // Render the MainTable component
     return (
@@ -133,7 +134,6 @@ const Users = ({ isOnlineNow }) => {
             obj={{
                 target: "users",
                 udata,
-                isLoading,
                 search,
                 updateSearch,
                 paginate,

@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useCallback } from "react";
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import { getLocalData } from "../UsersComponent/Users";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import '../UsersComponent/UsersTable.css';
@@ -23,7 +22,7 @@ const toggleBookmark = (id) => {
 const SingleCard = ({ obj }) => {
     // Destructure props
     let { updateMtb, bkmrks, val, target } = obj;
-    let { id, login, avatar_url, html_url } = val;
+    let { id, login, avatar_url } = val;
     // Define and manage bookmark state for this user
     let [isBooked, updateBooked] = useState(bkmrks.includes(id));
 
@@ -87,7 +86,7 @@ const MainCardList = ({ obj }) => {
     const [isFetching, setIsFetching] = useState(false);
 
     // Handle scrolling for fetching more data
-    const handleScroll = () => {
+    const handleScroll = useCallback(() => {
         // Check if scroll position requires more data and load if conditions are met
         if (
             window.innerHeight + window.scrollY >=
@@ -98,14 +97,14 @@ const MainCardList = ({ obj }) => {
                 paginate();
             }
         }
-    };
+    }, [isFetching, pagination, paginate]);
 
     useEffect(() => {
         window.addEventListener("scroll", handleScroll);
         return () => {
             window.removeEventListener("scroll", handleScroll);
         };
-    }, []);
+    }, [handleScroll]);
 
     return (
         <div id="respo_cards" className="container mt-3">

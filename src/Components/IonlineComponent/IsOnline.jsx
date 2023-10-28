@@ -10,7 +10,7 @@ const IsOnline = ({ obj }) => {
         window.addEventListener("offline", (e) => {
             updateIsOnlineOrNot([false, true]);
         })
-    }, []);
+    }, [updateIsOnlineOrNot]);
     return (
         <>
             {isOnlineNow[0] && isOnlineNow[1] && <div className="alert alert-success">Internet Is Connected.</div>}
