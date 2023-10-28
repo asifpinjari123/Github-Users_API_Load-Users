@@ -1,6 +1,5 @@
-import React, { useState, useEffect,useCallback } from "react";
-import MainTable from "../UsersComponent/Users_Table"; 
-
+import React, { useState, useEffect, useCallback } from "react";
+import MainTable from "../UsersComponent/Users_Table";
 
 // Function to retrieve data from local storage
 const getLocalData = (name) => {
@@ -19,7 +18,8 @@ const getLocalData = (name) => {
 const Users = ({ isOnlineNow }) => {
     // Component logic
     let [udata, updateUdata] = useState({ message: false });
-    let [isLoading, updateLoading] = useState(false);
+    // Commented out unused variable
+    // let [isLoading, updateLoading] = useState(false);
     let [pagination, updatePagination] = useState({
         page: 1,
         limit: 24,
@@ -34,12 +34,12 @@ const Users = ({ isOnlineNow }) => {
             let { page, limit } = pagination;
             let offset = (page - 1) * limit;
             let total_pages = Math.ceil(x.length / limit);
-    
+
             updatePagination((old) => ({
                 ...old,
                 showLoadMore: page >= total_pages ? false : true,
             }));
-    
+
             x = x.slice(0, offset + limit);
             updateUdata(x);
         },
@@ -67,7 +67,6 @@ const Users = ({ isOnlineNow }) => {
             updateUdata({ message: "No Data Available In Your Storage!" });
         }
     }, [search, loadByData]);
-    
 
     // Function to handle pagination
     let paginate = () => {
@@ -83,12 +82,12 @@ const Users = ({ isOnlineNow }) => {
     // Function to fetch data
     let getData = () => {
         if (onlineStatus) {
-           
             console.log("Requesting For Api Data...");
             fetch(`https://api.github.com/users?per_page=100`)
                 .then((data) => data.json())
                 .then((data) => {
-                    updateLoading(false);
+                    // Commented out unused variable update
+                    // updateLoading(false);
                     if (Array.isArray(data)) {
                         let my_need = data.map((val) => ({
                             id: val.id,
@@ -106,7 +105,8 @@ const Users = ({ isOnlineNow }) => {
                     }
                 })
                 .catch((err) => {
-                    updateLoading(false);
+                    // Commented out unused variable update
+                    // updateLoading(false);
                     updateUdata({ message: "Fetch Error Found!" });
                 });
         } else {
@@ -118,11 +118,13 @@ const Users = ({ isOnlineNow }) => {
         getData();
         // eslint-disable-next-line
     }, [onlineStatus]);
-    
+
     useEffect(() => {
-        updateLoading(true);
+        // Commented out unused variable update
+        // updateLoading(true);
         let x = setTimeout(() => {
-            updateLoading(false);
+            // Commented out unused variable update
+            // updateLoading(false);
             loadWithPagination();
         }, 300);
         return () => clearTimeout(x);
@@ -141,7 +143,7 @@ const Users = ({ isOnlineNow }) => {
             }}
         />
     );
-}
+};
 
 export default Users;
 export { getLocalData };
